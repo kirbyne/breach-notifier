@@ -2,6 +2,7 @@
 // import 'package:cli/scanner.dart' as test;
 import 'package:args/args.dart';
 import 'dart:io' show exit;
+import 'package:cli/check.dart';
 
 void main(List<String> arguments) {
   final parser = ArgParser()
@@ -9,8 +10,8 @@ void main(List<String> arguments) {
     ..addOption("add", abbr: 'a', help: "provide an email you want to check breaches for.")
     ..addOption("remove", abbr: 'r', help: "remove an email you have saved on the list.")
     ..addOption("list", abbr: 'l', help: "lists the emails you have saved to be checked.")
-    ..addFlag("notify-test", help: "sends a test notification to your other devices that are linked with ntfy.sh (probably)", negatable: false);
-
+    ..addFlag("notify-test", help: "sends a test notification to your other devices that are linked with ntfy.sh (probably)", negatable: false)
+    ..addOption("check-email", help: "Checks for a given email in XposedOrNot database", defaultsTo:"test@example.com");
   final args = parser.parse(arguments);
 
   if(args.wasParsed('help')) {
@@ -29,5 +30,8 @@ void main(List<String> arguments) {
   }
   else if(args.wasParsed("notify-test")) {
     print("notification test");
+  }
+  if(args.wasParsed("check-email")){
+    checkForBreaches(args['check-email']);
   }
 }
